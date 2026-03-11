@@ -4,21 +4,21 @@ const fs = require('fs').promises;
 
 
 
-async function LoadNotes() {
+async function loadNotes() {
     try {
 
         const dataOfNotes = await fs.readFile('note.json', 'utf-8');
         return JSON.parse(dataOfNotes);
         
     } catch {
-        return ['ошибка'];
+        return [];
         
     }
 };
 
 
 async function saveNotes(notes) {
-    await fs.writeFile('note.json', JSON.stringify(notes));
+    await fs.writeFile('note.json', JSON.stringify(notes, null, 2));
 
 };
 
@@ -50,7 +50,7 @@ if (!command || command === 'help') {
 if (command === 'add') {
     const title = args[1]; 
     const text = args[2] || "";
-    const notes = await LoadNotes();
+    const notes = await loadNotes();
 
     const newNote = {
     id: notes.length ? notes[notes.length - 1].id + 1 : 1, 
@@ -68,13 +68,13 @@ await saveNotes(notes);
 console.log('Заметка длбавлена');
 
 };
-};
+
 
 
 
 if (command === 'list') {
 
-    const notes = await LoadNotes();
+    const notes = await loadNotes();
 
     if (!notes.length) {
         console.log('заметок нет');
@@ -100,7 +100,7 @@ if (command === 'show') {
 
     };
 
-const notes = await LoadNotes();
+const notes = await loadNotes();
 const note = notes.find(n => n.id === id);
 if (!note) {
     console.log('Нет такой заметки');
@@ -126,7 +126,7 @@ if (command === 'remove') {
                
     };
 
-    let notes = await LoadNotes();
+    let notes = await loadNotes();
     const initialLength = notes.length;
     notes = notes.filter(n => n.id !== id);
     
@@ -135,8 +135,8 @@ if (command === 'remove') {
         return;
     }
     await saveNotes(notes);
-    console.log('заметка с ID ${id} удалена');
-};
+    console.log(`заметка с ID ${id} удалена`);
+}};
 
 
 main();
