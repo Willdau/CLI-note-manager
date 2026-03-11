@@ -65,7 +65,7 @@ if (!title) {
 
 notes.push(newNote);
 await saveNotes(notes);
-console.log('Заметка длбавлена');
+console.log('Заметка добавлена');
 
 };
 
