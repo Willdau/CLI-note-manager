@@ -15,6 +15,7 @@ async function loadNotes() {
         
     }
 };
+ 
 
 
 async function saveNotes(notes) {
